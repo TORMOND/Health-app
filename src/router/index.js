@@ -16,7 +16,41 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/About.vue')
     }
-  }
+  },
+  {
+    path: '/SignUpPage',
+    name: 'SignUpPage',
+   
+    component: function () {
+      return import( '../views/SignUpPage.vue')
+    }
+  },
+  {
+    path: '/NavigationPage',
+    name: 'NavigationPage',
+   
+    component: function () {
+      return import( '../views/NavigationPage.vue')
+    }
+  },
+  
+  
+  {
+    path: '/AdminPage',
+    name: 'AdminPage',
+   
+    component: function () {
+      return import( '../views/AdminPage.vue')
+    }
+  },
+  {
+    path: '/Settings',
+    name: 'Settings',
+   
+    component: function () {
+      return import( '../views/Settings.vue')
+    }
+  },
 ]
 
 const router = createRouter({
