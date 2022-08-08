@@ -199,7 +199,7 @@
     <About />
 
     <div class="footer">
-        <p>@copyright : This project is owned by </p>
+        <p>@copyright : This project is owned by  KIPROTICH BETT</p>
     </div>
     </div>
   </div>
