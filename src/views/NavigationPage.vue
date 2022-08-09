@@ -664,7 +664,7 @@ textarea:focus{
     width:60%;
     border-radius: 5px;
     color:#fff;
-    background-color:rgb(47, 47, 56);
+    background-color:rgb(58, 58, 134);
 }
 .footer{
     color:#fff;

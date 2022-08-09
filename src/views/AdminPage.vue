@@ -178,7 +178,8 @@
             </select>
             </div>
         <textarea placeholder="Prescription" v-model="Prescription"   v-if="activityHeading == 'Prescription'  "></textarea>
-        <button class="submit" @click.prevent="submitOrder">Submit</button>        
+       <button class="sending" v-if="sending">Sending...</button> 
+        <button class="submit" @click.prevent="submitOrder" v-else>Submit</button>        
             </form>
       
     </div>
@@ -234,11 +235,13 @@ export default {
           allocatedDate: '',
           selectedUser: '',
           prescription:'',
-          doctorsName:''
+          doctorsName:'',
+           sending: false
         }
     },
     methods: {
       submitOrder:function(){
+        this.sending = true
           if(this.activityHeading == 'Prescription'){
           const washingtonRef = doc(db, "medication-request", this.selectedUser)
           updateDoc(washingtonRef, {
@@ -252,6 +255,7 @@ export default {
           doctor:this.doctorsName
            });
           }
+          this.sending= false
       },
        prescribe:function(){
        this.activity = true
@@ -715,6 +719,16 @@ background: url(/images-1.jpg)no-repeat center;
   top:0;
   position:sticky;
   padding: 5px 10px;
+}
+.sending{
+    cursor:pointer;
+    border:none;
+    padding:16px;
+    margin-top:20px;
+    width:60%;
+    border-radius: 5px;
+    color:#fff;
+    background-color:rgb(58, 58, 134);
 }
 .selections-two{
    display:flex;
