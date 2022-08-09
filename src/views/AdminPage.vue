@@ -47,12 +47,12 @@
              <li>
                <p v-if="lists" >Admins</p>
                </li>
-             <li>
+             <li @click="settings">
                <p v-if="lists" >Settings</p>
                <font-awesome-icon class="icons" icon="gear" />
                </li>
-             <li>
-               <p v-show="lists" >LogOut</p>
+             <li  @click="signOut">
+               <p v-show="lists">LogOut</p>
            <font-awesome-icon class="icons" icon="right-from-bracket" />
            </li>
           </ul>
@@ -68,8 +68,9 @@
     <div class="wrap"></div>
 
  <div class="userProfile">
-<img :src="profilePic" alt="profile-pic" class="profilepic" v-if="profilePic=this.profilePic">
+<img :src="userProfile" alt="profile-pic" class="profilepic" v-if="userProfile == userProfile">
 <font-awesome-icon class="userIcon" v-else  icon="circle-user" />
+   
 </div>
 
 </nav>
@@ -406,8 +407,8 @@ const user = auth.currentUser;
 const colRef = collection(db,'Staff');
  
  addDoc(colRef, { 
-    staffName:this.remarks,
-    staffId:id,
+     name:this.remarks,
+     id:id,
      url:url,
      phoneNumber:this.phone,
     createdAt:serverTimestamp(),
@@ -443,11 +444,38 @@ onSnapshot(q, (snapshot)=>{
     
 })
 },
+signOut:function(){
+ signOut(auth).then(() => {
+    this.$router.push('/')
+  }).catch((error) => {
+    console.log("An error occured while signing out:"+ error)
+  });
+},
+ settings:function(){
+this.$router.push('/Settings')
+    },
 
     },
     beforeMount(){
     this.fetchRequestedAppointments();
  },
+ computed:{
+  userInfor(){
+     return this.$store.state.userName    
+   },
+   userId(){
+return this.$store.state.userId
+   },
+   userEmail(){
+return this.$store.state.userEmail
+   },
+   userPhone(){
+return this.$store.state.userPhoneNumber
+   },
+    userProfile(){
+return this.$store.state.userProfile
+   }
+ }
 }
 </script>
 <style scoped>
@@ -550,11 +578,11 @@ form{
 .nav-bar{
 display: flex;
 justify-content: space-between;
-padding:10px;
+padding:15px;
 }
 .profilepic{
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 .search-bar button{
@@ -646,8 +674,8 @@ input{
   cursor:pointer;
 }
 .userProfile{
-  width:32px;
-  height: 32px;
+  width:55px;
+  height:55px;
   border-radius: 50%;
 background-color:#ceced1;
 display:flex;

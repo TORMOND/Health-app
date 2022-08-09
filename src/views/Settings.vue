@@ -9,9 +9,9 @@
     <div class="admin-image">
       
 <div class="userProfile">
-<font-awesome-icon class="userIcon" v-if="profilePic == '' "   icon="circle-user" />
-<img src="profilePic.jpg" alt="profile-pic" class="profilepic" v-else>
-
+<img :src="userProfile" alt="profile-pic" class="profilepic" v-if="userProfile == userProfile">
+<font-awesome-icon class="userIcon" v-else  icon="circle-user" />
+   
   <label class="camera" @click="updateProfile">
     <font-awesome-icon  icon="camera" />
   </label>
@@ -19,31 +19,26 @@
  <div class="wrapper">
    <div class="name">
         <span>Names:</span>
-        <p>Victor</p>
+        <p>{{userInfor}}</p>
         <font-awesome-icon icon="pencil" />
         </div>
       <div class="job-position">
         <span>PhoneNumber</span>
-        <p>0700100100</p>
+        <p>{{userPhone}}</p>
         <font-awesome-icon icon="pencil" />
         </div>
       <div class="email">
         <span>Email:</span>
-        <p>usertest@gmail.com</p>
+        <p>{{userEmail}}</p>
         <font-awesome-icon icon="pencil" />
         </div>
       <div class="vehicle-registration">
         <span>Customer ID:</span>
-        <p> 859t9549894948</p>
-        <font-awesome-icon icon="pencil" />
+        <p>{{userId}}</p>
+        <p></p>
        </div>
  </div>
-     
-
-<!-- <div class="btn">
-  <button>Edit Profile</button>
-</div> -->
-
+ 
     </div>
   </div>
 
@@ -79,7 +74,7 @@
 </template>
 
 <script>
-import{ app, db, auth, firebaseConfig, user, signOut, collection, onAuthStateChanged, getDocs, getStorage, ref, uploadBytes, getDownloadURL, setDoc, doc,  serverTimestamp, addDoc } from '@/firebase.js'
+import{ app, db, auth, firebaseConfig, user, signOut, collection, onAuthStateChanged, getDocs, getStorage, ref, uploadBytes, getDownloadURL, setDoc, doc,  serverTimestamp, addDoc,updateDoc } from '@/firebase.js'
 
 export default {
 data() {
@@ -88,6 +83,12 @@ data() {
     image: '',
     imageUrl: '',
     profileUpdate:false,
+    name:'',
+    profilePic:'',
+    currentUserId:'',
+    email:'',
+    currentUser:'',
+    phoneNumber:''
   }
 },
 methods: {
@@ -171,7 +172,26 @@ const app = document.querySelector('#container');
          app.classList="" ;
          this.imageUrl="";
 },
+
 },
+
+ computed:{
+  userInfor(){
+     return this.$store.state.userName    
+   },
+   userId(){
+return this.$store.state.userId
+   },
+   userEmail(){
+return this.$store.state.userEmail
+   },
+   userPhone(){
+return this.$store.state.userPhoneNumber
+   },
+    userProfile(){
+return this.$store.state.userProfile
+   }
+ }
 }
 </script>
 
@@ -342,8 +362,8 @@ font-size: 14px;
   padding: 16px;
 }
 .profilepic{
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 }
 .admin-profile{

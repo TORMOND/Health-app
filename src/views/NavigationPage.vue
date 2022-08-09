@@ -25,21 +25,29 @@
             </select>
             </div>
         <textarea placeholder="Condition or Symptoms" v-model="symptoms"></textarea>
-        <button class="submit" @click.prevent="submitMedicationOrder">Submit</button>        
+        <button class="sending" v-if="sending">Sending...</button> 
+        <button class="submit" @click.prevent="submitMedicationOrder" v-else>Submit</button>        
             </form>
       
     </div>
-     <div class="appointment" v-if="appointmentDate !== '' ">
-             <p>Hello,{{name}} </p>
+     <div class="appointment" >
+        <div v-if="appointmentDate == '' ">No Appointment </div>
+        <div v-else>
+         <p>Hello,{{name}} </p>
              <p>Your have an appointment with:{{doctor}} </p>
-             <p>on {{appointmentDate}}</p>
+             <p>on {{appointmentDate}}</p>    
+        </div>
+            
            </div>
-
-         
-           <div class="prescription" v-if="prescriptionInfor !== '' ">
-            <p>Hello,{{name}} </p>
+      
+           <div class="prescription">
+            <div v-if="prescriptionInfor == '' ">No Prescrition</div>
+            <div v-else>
+                <p>Hello,{{name}} </p>
             <p>Your current prescription is:</p>
             <p>{{prescriptionInfor}}</p>
+            </div>
+            
            </div>
            </div>
          
@@ -192,7 +200,9 @@
             </div>
             
         <textarea placeholder="condition" v-model="condition"></textarea>
-        <button class="submit" @click.prevent="submit">Submit</button>        
+         <button class="sending" v-if="sending">Sending...</button> 
+        <button class="submit" @click.prevent="submit" v-else>Submit</button>       
+        
             </form>
     </div>
     </div>
@@ -208,7 +218,7 @@
 <script>
 import Carousel from "@/components/Carousel.vue";
 import About from './About.vue';
-import{ app, db, auth, user, setDoc, doc, collection, onAuthStateChanged, query, where,  onSnapshot, serverTimestamp  } from '@/firebase.js'
+import{ app, db, auth, user, setDoc, doc, collection, onAuthStateChanged, query, where,  onSnapshot, serverTimestamp, signOut  } from '@/firebase.js'
 
 export default {
  components: {
@@ -231,7 +241,8 @@ export default {
         prescription:'',
         doctor:'',
         appointmentDate:'',
-        prescriptionInfor:''
+        prescriptionInfor:'',
+        sending: false
     }
   },
   methods: {
@@ -281,6 +292,7 @@ onSnapshot(q, (snapshot)=>{
     snapshot.docs.forEach((doc)=>{
           this.appointmentDate = doc.data().Appointment;
           this.doctor = doc.data().doctor;
+          console.log(doc.data())
           console.log(this.appointmentDate)
     })
 })
@@ -291,6 +303,7 @@ onSnapshot(q, (snapshot)=>{
        container.classList = "active"
     },
     submitMedicationOrder:function(){
+        this.sending = true
       setDoc(doc(db, "medication-request", this.currentUserId), {
       name: this.name,
       email:this.email,
@@ -301,6 +314,7 @@ onSnapshot(q, (snapshot)=>{
       createdAt:serverTimestamp(),
       message:this.symptoms
     });
+       this.sending = false
     },
     about:function(){
 this.$router.push('/About')
@@ -309,6 +323,7 @@ this.$router.push('/About')
 this.$router.push('/Settings')
     },
     submit:function(){
+         this.sending = true
       setDoc(doc(db, "created-request", this.currentUserId), {
       name: this.name,
       email:this.email,
@@ -317,6 +332,11 @@ this.$router.push('/Settings')
       createdAt:serverTimestamp(),
       message:this.condition
     });
+    this.sending = false
+    this.name = ''
+    this.condition = ''
+    this.phoneNumber = ''
+
     },
     signOut:function(){
  signOut(auth).then(() => {
@@ -339,7 +359,12 @@ onSnapshot(q, (snapshot)=>{
           this.phoneNumber =doc.data().phoneNumber
           this.email = doc.data().email
     })
-    
+    var personName =  this.$store.state.userName = this.name
+    var personId =  this.$store.state.userId = this.currentUserId
+    var personPhone =  this.$store.state.userPhoneNumber = this.phoneNumber
+    var personEmail =  this.$store.state.userEmail = this.email
+    var profilePic = this.$store.state.userProfile = this.profilePic
+    this.$store.commit('update', personName, personId, personPhone, personEmail, profilePic)
 })
  } else {
    console.log("no user");
@@ -423,16 +448,16 @@ onSnapshot(q, (snapshot)=>{
 }
 .userIcon{
   color: rgb(160, 158, 158);
-   font-size: 28px; 
+   font-size: 32px; 
 }
 .profilepic{
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 .userProfile{
-  width:32px;
-  height: 32px;
+  width:55px;
+  height: 55px;
   border-radius: 50%;
   background-color:#ceced1;
   display:flex;
@@ -630,6 +655,16 @@ textarea:focus{
     border-radius: 5px;
     color:#fff;
     background-color:rgb(4, 4, 48);
+}
+.sending{
+    cursor:pointer;
+    border:none;
+    padding:16px;
+    margin-top:20px;
+    width:60%;
+    border-radius: 5px;
+    color:#fff;
+    background-color:rgb(47, 47, 56);
 }
 .footer{
     color:#fff;

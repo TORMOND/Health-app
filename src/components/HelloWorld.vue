@@ -27,7 +27,7 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
-      user: 'Victor',
+      user: '',
       email: '',
       password: '',
       errors: '',
