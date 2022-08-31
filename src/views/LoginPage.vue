@@ -5,7 +5,7 @@
      <form>
        <input type="email" required placeholder="Email" v-model="email">
        <input type="password" required placeholder="password" v-model="password">
-       <p class="error" v-if="errors">{{errors}}</p>
+       <p class="error" v-if="errors !== '' ">{{errors}}</p>
        <button @click.prevent="login">LOGIN</button>
        <span @click="recoverPassword" class="forgot-password">forgot Password ?</span>
 
@@ -24,7 +24,7 @@
 import{ app, db, auth, firebaseConfig, user, signInWithEmailAndPassword, signOut, collection, onAuthStateChanged, getDocs } from '@/firebase.js'
 
 export default {
-  name: 'HelloWorld',
+  name: 'LoginPage',
   data() {
     return {
       user: '',
@@ -60,11 +60,10 @@ console.log("Fill in required details");
 this.$router.push('/AdminPage');
 
     }else if (user) {
-            this.$router.push('/NavigationPage');
+            this.$router.push('/HomePage');
             console.log(user);
     } 
-    else{
-        // stop.this.$router.push('/Navigation')
+    else{  
         alert("error");
     }
       })

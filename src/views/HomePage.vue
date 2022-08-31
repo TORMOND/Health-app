@@ -200,7 +200,7 @@
             </div>
             
         <textarea placeholder="condition" v-model="condition"></textarea>
-         <button class="sending" v-if="sending">Sending...</button> 
+        <button class="sending" v-if="sending">Sending...</button> 
         <button class="submit" @click.prevent="submit" v-else>Submit</button>       
         
             </form>
@@ -209,7 +209,7 @@
     <About />
 
     <div class="footer">
-        <p>@copyright : This project is owned by  KIPROTICH BETT</p>
+        <p>@copyright : This project is built by  VICTOR MONDERU</p>
     </div>
     </div>
   </div>
@@ -268,7 +268,19 @@ orderMedication:function(){
       const prescription = document.querySelector('.prescription')
       prescription.style.display = "none"
       const appointment = document.querySelector('.appointment')
-      appointment.style.display = "block"    
+      appointment.style.display = "block"  
+      const userRef = collection(db, 'created-request');
+
+const k = query(userRef, where("id", "==", this.currentUserId));
+onSnapshot(k, (snapshot)=>{
+    snapshot.docs.forEach((doc)=>{
+          this.appointmentDate = doc.data().Appointment;
+          this.doctor = doc.data().doctor;
+          console.log(doc.data())
+          console.log(this.appointmentDate)
+    })
+}) 
+
 },
     closeMedicationForm:function(){
        this.popup = false
@@ -286,9 +298,11 @@ orderMedication:function(){
       const appointment = document.querySelector('.appointment')
       appointment.style.display = "block"
 
+      console.log("appointment clicked")
+
 const userRef = collection(db, 'created-request');
-const q = query(userRef, where("id", "==", this.currentUserId));
-onSnapshot(q, (snapshot)=>{
+const k = query(userRef, where("id", "==", this.currentUserId));
+onSnapshot(k, (snapshot)=>{
     snapshot.docs.forEach((doc)=>{
           this.appointmentDate = doc.data().Appointment;
           this.doctor = doc.data().doctor;
@@ -359,6 +373,7 @@ onSnapshot(q, (snapshot)=>{
           this.phoneNumber =doc.data().phoneNumber
           this.email = doc.data().email
     })
+
     var personName =  this.$store.state.userName = this.name
     var personId =  this.$store.state.userId = this.currentUserId
     var personPhone =  this.$store.state.userPhoneNumber = this.phoneNumber
@@ -368,6 +383,7 @@ onSnapshot(q, (snapshot)=>{
 })
  } else {
    console.log("no user");
+   this.$router.push('/')
   }
 });
 

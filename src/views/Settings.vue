@@ -11,7 +11,6 @@
 <div class="userProfile">
 <img :src="userProfile" alt="profile-pic" class="profilepic" v-if="userProfile == userProfile">
 <font-awesome-icon class="userIcon" v-else  icon="circle-user" />
-   
   <label class="camera" @click="updateProfile">
     <font-awesome-icon  icon="camera" />
   </label>
@@ -93,7 +92,7 @@ data() {
 },
 methods: {
    homePage:function(){
-this.$router.push('/NavigationPage');
+this.$router.push('/HomePage');
   },
     pickFile:function(){
           if(this.lists= true){
@@ -102,22 +101,21 @@ this.$router.push('/NavigationPage');
     
       },
 onFileSelected:function(event){
-            // console.log("file selected");
 const files = event.target.files;
 let filename = files[0].name;
 const fileReader = new FileReader();
 
-// console.log(files);
+console.log(files);
 fileReader.addEventListener('load', () =>{
   
   this.imageUrl = fileReader.result;
-//  console.log(this.imageUrl);
-    //  console.log(filename);
+ console.log(this.imageUrl);
+  console.log(filename);
  
 })
 fileReader.readAsDataURL(files[0]);
 this.image = files[0];
-// console.log(this.image);
+console.log(this.image);
       },
       cancelPhoto(){
     this.imageUrl = "";
@@ -352,7 +350,6 @@ gap: 10px;
 padding: 10px;
 justify-content: space-between;
 font-size: 14px;
-/* border-bottom:0.5px solid #898a8b; */
 }
 .icon{
   display: inline-flex;

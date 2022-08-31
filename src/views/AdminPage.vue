@@ -1,6 +1,5 @@
 <template>
   <div id="homePage">
-
     <div id="modal" v-if="modal" >
     <div class="create">
         <h2> New staff</h2>
@@ -350,8 +349,8 @@ menu.style.left = "-10px";
       },
       openModal:function(){
           this.modal=true
-           const app = document.querySelector('#main-page')
-         app.classList="active"   
+          const app = document.querySelector('#main-page')
+          app.classList="active"   
       },
       closeModal:function(){
           this.modal= false

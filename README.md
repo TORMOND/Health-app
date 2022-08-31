@@ -1,4 +1,10 @@
 # health-app
+```
+  This is an online version that renders some of the services that occur in a hospital.
+  We've created a platform where by a patient can request to consult with a doctor and an appointment is given.
+  A patient can also view prescribed medicine or request medicine at the comfort of their home.
+```
+
 
 ## Project setup
 ```

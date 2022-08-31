@@ -2,9 +2,11 @@
   <div class="about">
     <div class="content">
      <h2>About Us</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-       In vel velit nisi est libero tempore esse blanditiis iusto quibusdam voluptatum dolores hic,
-       accusantium ab neque quo corrupti expedita distinctio pariatur.</p>  
+   
+
+ <p>This is an online version that renders some of the services that occur in a hospital.
+  We've created a platform where by a patient can request to consult with a doctor and an appointment is given.
+         A patient can also view prescribed medicine or request all at the comfort of their home </p>
     </div>
    
   </div>
