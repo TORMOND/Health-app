@@ -1,5 +1,15 @@
 <template>
   <div class="HomePage">
+     <div class="tab">
+       <div class="closer">
+        <p @click="untoggleMenu">
+        <font-awesome-icon class="cancel" icon="xmark" />
+        
+        </p>
+        </div>
+   <Tab @aboutPage="about" @logout="signOut" @settingsPage="settings" @activateMedicationForm="activateMedicationForm" @openAppointment="openAppointment" />
+    </div>
+
      <div id="popup" v-if="popup">
         <div class="medication">
         <div class="top-element">
@@ -69,12 +79,59 @@
 <img :src="profilePic" alt="profile-pic" class="profilepic" v-if="profilePic=this.profilePic">
 <font-awesome-icon class="userIcon" v-else  icon="circle-user" />
      </div>
+       <div class="menu">
+<font-awesome-icon class="menu-icon" @click="toggleMenu" icon="align-justify"/>
+  </div>
     </div>
     <div class="carousel">
   <carousel :slides="slides" :interval="10000" controls indicators></carousel>
     </div>
     <div class="services">
        <div class="service-action">
+     <div class="guidance">
+      <font-awesome-icon icon=" fa-hand-holding-medical" class="service-icons" />
+      <div class="infor">
+        <p>Guidance & Counselling</p>
+        <span>+254 720080060</span>
+      </div>
+        
+        </div>
+     <div class="Ambulance">
+        <font-awesome-icon icon=" fa-truck-medical" class="service-icons" />
+        <div class="infor">
+            <p> Ambulance</p>
+            <span>+254 720080060</span>
+        </div>
+       
+        </div>
+     <div class="medicine">
+        <font-awesome-icon icon=" fa-tablets" class="service-icons" />
+        <div class="infor">
+            <p>Medicine</p>
+            <span>+254 720080060</span>
+        </div>
+        
+        </div>
+     <div class="dentist">
+        <font-awesome-icon icon=" fa-tooth" class="service-icons" />
+        <div class="infor">
+            <p> Dentist</p>
+            <span>+254 720080060</span>
+        </div>
+       
+        </div>
+        <div class="first-aid">
+            <font-awesome-icon icon=" fa-suitcase-medical" class="service-icons" />
+            <div class="infor">
+                <p> First Aid</p>
+                <span>+254 720080060</span>
+            </div>
+           
+        </div>
+       </div>
+    </div>
+       <div class="services-2">
+       <div class="service-action-2">
      <div class="guidance">
       <font-awesome-icon icon=" fa-hand-holding-medical" class="service-icons" />
       <div class="infor">
@@ -218,11 +275,12 @@
 <script>
 import Carousel from "@/components/Carousel.vue";
 import About from './About.vue';
+import Tab from '@/components/TabMenu.vue'
 import{ app, db, auth, user, setDoc, doc, collection, onAuthStateChanged, query, where,  onSnapshot, serverTimestamp, signOut  } from '@/firebase.js'
 
 export default {
  components: {
-    Carousel, About
+    Carousel, About, Tab
   },
   data() {
     return {
@@ -311,6 +369,18 @@ onSnapshot(k, (snapshot)=>{
     })
 })
     },
+      toggleMenu:function(){
+const tab = document.querySelector('.tab');
+tab.style.display = "block";
+const container = document.querySelector('#container');
+container.classList = "active";
+  },
+  untoggleMenu:function(){
+const tab = document.querySelector('.tab');
+tab.style.display = "none";
+const container = document.querySelector('#container');
+container.classList = "";
+  },
     activateMedicationForm:function(){
        this.popup = true
        const container = document.querySelector('#container')
@@ -392,12 +462,26 @@ onSnapshot(q, (snapshot)=>{
   //Mount
    beforeMount(){
     this.fetchData();
-
  },
 }
 </script>
 
 <style scoped>
+.menu{
+    display:none;
+}
+.tab{
+    cursor:pointer;
+display:none;
+flex-direction: column;
+background: #010620;
+color: #f0e5ef;
+width: 100%;
+height: 70%;
+position: absolute;
+z-index: 1;
+padding-top: 24px;
+}
 #container.active{
     opacity: 0.1;
     pointer-events: none;
@@ -481,13 +565,15 @@ onSnapshot(q, (snapshot)=>{
   align-items: center;
 }
 .staff{
-    display: flex;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
     gap:20px;
-     padding:10px 0;
+    padding:10px 0;
 }
 .doctors{
     background-color:rgb(7, 7, 78);
     padding:80px 10px 10px 10px;
+    box-sizing:border-box;
 }
 .doctors h2{
     color:#fff;
@@ -495,11 +581,9 @@ onSnapshot(q, (snapshot)=>{
 .doctor{
     display:flex;
     flex-direction:column;
-    margin:0 auto;
     background-color: #fff;
     border-radius: 5px;
-    overflow:hidden;
-    width:15%;
+    width:100%;
 }
 .doctor-image{
     width:100%;
@@ -509,12 +593,26 @@ onSnapshot(q, (snapshot)=>{
 .doctor-details{
     padding:10px;
 }
+.services{
+    display:flex;
+    flex-direction: row;
+}
 .service-action{
     margin-top:-60px;
     margin-left:13%;
     display: flex;
     position:absolute;
     z-index:1;
+    background-color:#fff;
+}
+.services-2{
+    display:none;
+    flex-direction: row;
+}
+.service-action-2{
+    margin:0 auto;
+    display: flex;
+    flex-direction: row;
     background-color:#fff;
 }
 .service-icons{
@@ -550,6 +648,7 @@ color:rgb(143, 142, 142);
 .services-list{
     display:inline-flex;
     flex-direction:column;
+
 }
 .services-list li{
     list-style:none;
@@ -636,9 +735,12 @@ form{
     color:#fff;
 }
 .names-input, .user-details{
-    display:flex;
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
     gap:10px;
     padding:10px 0;
+    width:100%;
+    box-sizing:border-box;
 }
 .consultation-form select{
     background-color:rgb(92, 92, 177);
@@ -686,5 +788,107 @@ textarea:focus{
     color:#fff;
     background-color:rgb(4, 4, 48);
     padding:16px;
+}
+@media all and (max-width:1024px) {
+
+}
+
+@media all and (max-width:900px) {
+    .services-2{
+    display:block;
+    padding:10px;
+    box-sizing:border-box;
+}
+.service-action-2{
+    margin:10px auto;
+    display:grid;
+   grid-template-columns:repeat(2,1fr);
+    background-color:#fff;
+    gap:10px;
+}
+    .staff{
+        grid-template-columns:repeat(3, 1fr);
+    }
+.service-action{
+         margin-top:-60px;
+    margin-left:0%;
+    display:none;
+    width:100vw;
+    box-sizing:border-box; 
+    grid-template-columns: repeat(2, 1fr);
+    position:absolute;
+    z-index:1;
+    background-color:#fff;
+    }
+    .guidance, .Ambulance, .medicine, .dentist, .first-aid {
+    display:flex;
+    flex-direction: column;
+    width:50%;
+    height: 100px;
+    border-left: 0.5px solid #ceced1;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    gap:20px
+}
+}
+@media all and (max-width:500px) {
+    .selections{
+  display:flex;
+  gap:10px;
+  top:0;
+  padding: 5px 10px;
+  justify-content: center;
+}
+    .medication{
+    width:85vw;
+    height:85vh;
+}
+    .names-input, .user-details{
+    display:grid;
+    grid-template-columns: repeat(1,1fr);
+    gap:10px;
+    padding:10px 0;
+    width:100%;
+    box-sizing:border-box;
+}
+    .menu{
+    display:block;
+}
+    .more-infor{
+    display:flex;
+   flex-direction: column-reverse;
+}
+    .staff{
+        grid-template-columns:repeat(2,1fr);
+    }
+    .nav-list{
+        display:none;
+    }
+    .services{
+        display:none;
+    }
+    .service-action{
+         margin-top:-60px;
+    margin-left:0%;
+    display:grid;
+    width:100vw;
+    box-sizing:border-box; 
+    grid-template-columns: repeat(2, 1fr);
+    position:absolute;
+    z-index:1;
+    background-color:#fff;
+    }
+    .guidance, .Ambulance, .medicine, .dentist, .first-aid {
+    display:flex;
+    flex-direction: column;
+    width:50%;
+    height: 100px;
+    border-left: 0.5px solid #ceced1;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    gap:20px
+}
 }
 </style>

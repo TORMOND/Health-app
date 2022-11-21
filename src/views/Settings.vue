@@ -98,7 +98,6 @@ this.$router.push('/HomePage');
           if(this.lists= true){
          this.$refs.fileInput.click()   
           }
-    
       },
 onFileSelected:function(event){
 const files = event.target.files;
