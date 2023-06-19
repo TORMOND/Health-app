@@ -31,11 +31,7 @@
         <p>{{userEmail}}</p>
         <font-awesome-icon icon="pencil" />
         </div>
-      <div class="vehicle-registration">
-        <span>Customer ID:</span>
-        <p>{{userId}}</p>
-        <p></p>
-       </div>
+     
  </div>
  
     </div>
