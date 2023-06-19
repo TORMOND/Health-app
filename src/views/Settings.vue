@@ -396,4 +396,11 @@ align-items: center;
 .wrapper{
    padding: 10px 16px;
 }
+  @media all and(max-width:500px){
+    .admin-profile{
+  width:95vw;
+ margin:0 auto;
+}
+  }
+  
 </style>
