@@ -366,6 +366,7 @@ font-size: 14px;
  flex-direction: column;
  padding: 20px 0px;
  margin:0 auto;
+  width:85%;
 }
 .userIcon{
   color: rgb(160, 158, 158);
@@ -392,11 +393,6 @@ align-items: center;
 .wrapper{
    padding: 10px 16px;
 }
-  @media all and(max-width:500px){
-    .admin-profile{
-  width:95vw;
- margin:0 auto;
-}
-  }
+  
   
 </style>
